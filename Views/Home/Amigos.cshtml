@@ -1,0 +1,34 @@
+﻿@{
+    var nota = (List<Compartido>)Model;
+}
+
+<div class="container-fluid px-4">
+    <br />
+    <div class="text-center">
+        <h1 class="display-4">Notas Compartidas conmigo</h1>
+    </div>
+    <br />
+    <div class="row" id="Lista" style="padding: 0 70px;">
+        <div class="card">
+            @foreach (var item in nota)
+            {
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h5><a class="text-dark" style="text-transform: uppercase; text-decoration:none; outline:none" href="/Home/Detalle?Id=@item.Nota.Id"><strong>@item.Nota.Titulo</strong></a></h5>
+                        <p class="float-left">
+                            <strong>Cuerpo: </strong>
+                            @if (item.Nota.Cuerpo.Length > 50)
+                            {
+                                <parcial>@item.Nota.Cuerpo.Substring(0, 50) ...</parcial>
+                            }
+                            else
+                            {
+                                <parcial>@item.Nota.Cuerpo</parcial>
+                            }
+                        </p>
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T3ESOT", "T3ESOT.csproj", "{EEED2D8A-6311-4D33-AC15-215F3BB3BDEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEED2D8A-6311-4D33-AC15-215F3BB3BDEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEED2D8A-6311-4D33-AC15-215F3BB3BDEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEED2D8A-6311-4D33-AC15-215F3BB3BDEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEED2D8A-6311-4D33-AC15-215F3BB3BDEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1B471F9-CA30-4221-A989-60D3BFFB837D}
+	EndGlobalSection
+EndGlobal

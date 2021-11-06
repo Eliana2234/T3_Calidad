@@ -1,0 +1,41 @@
+﻿@{
+    var nota = (Nota)Model;
+}
+<div class="container-fluid px-4">
+    <br />
+    <div class="text-center">
+        <h1 class="display-4">Detalle de la nota</h1>
+    </div>
+    <br />
+    <div class="row">
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>@nota.Titulo</strong>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><strong>Contenido: </strong></h5>
+                <p class="card-text">
+                    @nota.Cuerpo
+                </p>
+                <h5 class="card-title"><strong>Etiquetas: </strong></h5>
+                <p class="card-text">
+                    <ul>
+                        @foreach (var etiqueta in ViewBag.Etiquetitas)
+                        {
+                            if (etiqueta.IdNota == nota.Id)
+                            {
+                                <li>
+                                    <span>
+                                        @etiqueta.Etiqueta.Nombre
+                                    </span>
+                                </li>
+                            }
+                        }
+                    </ul>
+            </div>
+            <div class="card-footer text-center text-muted">
+                <strong>Ultima modificacion: </strong>@string.Format("{0:dd MMMM yyyy}", nota.Fecha)
+            </div>
+        </div>
+    </div>
+</div>

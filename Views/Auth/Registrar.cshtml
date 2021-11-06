@@ -1,0 +1,37 @@
+﻿@{ var usuario = (User)Model; }
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <br />
+        <br />
+        <br />
+        <div class="card">
+            <div class="card-body">
+                <form action="/auth/registrar" class="col-12" method="post">
+                    <label>Username</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Nombre de Usuario" name="Username" />
+                        <p id="inCorrecto">@Html.ValidationMessage("Username")</p>
+                    </div>
+
+                    <label>Contraseña</label>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Contraseña" name="password" />
+                        @Html.ValidationMessage("password")
+                    </div>
+
+                    <label>Confirmar Contraseña</label>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Confirmar Contraseña" name="passwordConf" />
+                        @Html.ValidationMessage("PasswordConf")
+                    </div>
+
+                    <button type="submit" class="btn btn-primary float-left"><i class="fas fa-sign-in-alt"></i>  Registrar </button>
+                </form>
+                <div class="col-12 forgot">
+                    <a class="btn btn-dark float-right" href="/auth/login">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

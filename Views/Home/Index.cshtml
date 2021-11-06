@@ -1,0 +1,224 @@
+﻿@{ var nota = (List<Nota>)Model; }
+
+
+<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="/" enctype="multipart/form-data" method="get">
+    <div class="input-group">
+        <input id="Nombre" type="search" name="search" class="form-control" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" id="buscar" type="submit"><i class="fas fa-search"></i></button>
+    </div>
+</form>
+
+<a href="#" data-toggle="modal" data-target="#crear" class="btn btn-primary">
+    Tomar notas
+</a>
+
+<div class="container-fluid px-4">
+    <br />
+    <div class="text-center">
+        <h1 class="display-4">Notas</h1>
+    </div>
+    <br />
+    <div class="row" id="Lista" style="padding: 0 70px;">
+        <div class="card">
+            @foreach (var item in nota)
+            {
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <h5><a class="text-dark" style="text-transform: uppercase; text-decoration:none; outline:none" href="/Home/Detalle?Id=@item.Id"><strong>@item.Titulo</strong></a></h5>
+        <p class="float-left">
+            <strong>Cuerpo: </strong>
+            @if (item.Cuerpo.Length > 50)
+            {
+<parcial>@item.Cuerpo.Substring(0, 50) ...</parcial> }
+else
+{
+<parcial>@item.Cuerpo</parcial>}
+        </p>
+        <div align="right" class="float-right">
+            <a style="margin-right:5px;" class="btn btn-danger float-lg-right" href="/Home/Eliminar?id=@item.Id" onclick="elimina(event,@item.Id)"><i class="far fa-trash-alt"></i></a>
+            <a style="margin-right:5px;" class="btn btn-primary float-lg-right" href="#" data-toggle="modal" data-target="#edit" onclick="selCuenta('@item.Id','@item.Titulo','@item.Cuerpo')"><i class="fas fa-edit"></i></a>
+            <a style="margin-right:5px;" class="btn btn-success float-lg-right" href="#" data-toggle="modal" data-target="#compartir" onclick="Compartir('@item.Id')"><i class="far fa-share-square"></i></a>
+        </div>
+    </li>
+
+</ul>       }
+        </div>
+    </div>
+</div>
+<!-- Modal crear -->
+<div class="modal fade" id="crear" tabindex="-1" aria-labelledby="crear" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel_create">Crear Nota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="crearNotita">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="submitFormCreate()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar -->
+<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel_edit">Editar Nota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="editNotita">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="submitFormEdit()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal compartir -->
+<div class="modal fade" id="compartir" tabindex="-1" aria-labelledby="compartir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel_edit">Compartir Nota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="compartirf" onsubmit="CompartirForm(event)" action="/Home/Compartir" method="post">
+                    <input id="IdNota" type="hidden" name="IdNota" />
+                    <div class="form-group">
+                        <label>Compartir con: </label>
+                        <div class="form-group" id="contrasena-group">
+                            <select name="IdUser" class="form-select">
+                                <option value="">-- Selecciona un usuario --</option>
+                                @foreach (var item in ViewBag.Usuarios)
+                                {
+                    <option value="@item.Id">@item.Username</option>}
+                                @Html.ValidationMessage("Compartido")
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="submitFormCompartir()">Compartir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $.ajax({
+            url: '/Home/Create',
+            type: 'get'
+        }).done(function (html) {
+            $('#crearNotita').html(html);
+        })
+
+        function submitFormCreate() {
+            $('#createNota').submit();
+        }
+
+        function guardar(event) {
+            event.preventDefault();
+            var dataString = new FormData($('#crear form')[0]);
+            $.ajax({
+                url: "/Home/Create",
+                type: "post",
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: dataString
+            }).done(function (html) {
+                location.reload();
+            }).fail(function (html) {
+                $('#crearNotita').html(html.responseText);
+            });
+        }
+        function elimina(e, id) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Home/Eliminar?id=' + id,
+                type: 'get',
+            }).done(function (html) {
+                location.reload();
+            });
+        }
+
+        function selCuenta(id, titulo, cuerpo) {
+            $('#mtxtId').val(id);
+            $('#mtxtTitulo').val(titulo);
+            $('#mtxtCuerpo').val(cuerpo);
+        };
+
+        $.ajax({
+            url: '/Home/Edit',
+            type: 'get'
+        }).done(function (html) {
+            $('#editNotita').html(html);
+        })
+
+        function submitFormEdit() {
+            $('#editNota').submit();
+        }
+
+        function editar(event) {
+            event.preventDefault();
+            var idE = $('#mtxtId').val();
+            var dataString = new FormData($('#edit form')[0]);
+            dataString.append("idE", idE);
+            $.ajax({
+                url: "/Home/Edit",
+                type: "post",
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: dataString
+            }).done(function (html) {
+                location.reload();
+            }).fail(function (html) {
+                $('#editNotita').html(html.responseText);
+            });
+        }
+
+        function Compartir(id) {
+            $('#IdNota').val(id);
+        };
+
+        function submitFormCompartir() {
+            $('#compartirf').submit();
+        }
+
+        function CompartirForm(event) {
+            event.preventDefault();
+            var dataString = new FormData($('#compartir form')[0]);
+            $.ajax({
+                url: "/Home/Compartir",
+                type: "post",
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: dataString
+            }).done(function (html) {
+                location.reload();
+            }).fail(function (html) {
+                $('#compartirf').html(html.responseText);
+            });
+        }
+    </script>
+}
