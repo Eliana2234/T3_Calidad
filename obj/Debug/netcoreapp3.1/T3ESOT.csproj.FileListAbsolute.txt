@@ -81,3 +81,4 @@ C:\Users\selen\OneDrive\Documentos\GitHub\T3_Calidad\T3ESOT\obj\Debug\netcoreapp
 C:\Users\selen\OneDrive\Documentos\GitHub\T3_Calidad\T3ESOT\obj\Debug\netcoreapp3.1\Razor\Views\Home\Edit.cshtml.g.cs
 C:\Users\selen\OneDrive\Documentos\GitHub\T3_Calidad\T3ESOT\obj\Debug\netcoreapp3.1\Razor\Views\Home\Amigos.cshtml.g.cs
 C:\Users\selen\OneDrive\Documentos\GitHub\T3_Calidad\T3ESOT\obj\Debug\netcoreapp3.1\Razor\Views\Home\Detalle.cshtml.g.cs
+C:\Users\selen\OneDrive\Documentos\GitHub\T3_Calidad\T3ESOT\obj\Debug\netcoreapp3.1\Razor\Views\Home\Categoria.cshtml.g.cs

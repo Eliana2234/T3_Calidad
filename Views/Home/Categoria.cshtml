@@ -1,4 +1,5 @@
-﻿@{ var nota = (List<Nota>)Model; }
+﻿@{ var nota = (List<EtiquetaNota>)Model; }
+
 
 <form class="d-flex me-2" action="/" enctype="multipart/form-data" method="get">
     <div class="input-group">
@@ -17,8 +18,7 @@
         <li><a class="dropdown-item" href="/">Todas las categorias</a></li>
         @foreach (var item in ViewBag.Etiquetas)
         {
-            <li><a class="dropdown-item" href="/Home/Categoria?idCategoria=@item.Id">@item.Nombre</a></li>
-            }
+<li><a class="dropdown-item" href="/Home/Categoria?idCategoria=@item.Id">@item.Nombre</a></li>            }
     </ul>
     <a href="#" data-toggle="modal" data-target="#crear" class="btn btn-primary float-right">
         Tomar notas
@@ -39,24 +39,23 @@
             {
 <ul class="list-group list-group-flush">
     <li class="list-group-item">
-        <h5><a class="text-dark" style="text-transform: uppercase; text-decoration:none; outline:none" href="/Home/Detalle?Id=@item.Id"><strong>@item.Titulo</strong></a></h5>
+        <h5><a class="text-dark" style="text-transform: uppercase; text-decoration:none; outline:none" href="/Home/Detalle?Id=@item.Nota.Id"><strong>@item.Nota.Titulo</strong></a></h5>
         <p class="float-left">
             <strong>Cuerpo: </strong>
-            @if (item.Cuerpo.Length > 50)
+            @if (item.Nota.Cuerpo.Length > 50)
             {
-<parcial>@item.Cuerpo.Substring(0, 50) ...</parcial> }
-else
-{
-<parcial>@item.Cuerpo</parcial>}
+<parcial>@item.Nota.Cuerpo.Substring(0, 50) ...</parcial> }
+                else
+                {
+<parcial>@item.Nota.Cuerpo</parcial>}
         </p>
         <div align="right" class="float-right">
-            <a style="margin-right:5px;" class="btn btn-danger float-lg-right" href="/Home/Eliminar?id=@item.Id" onclick="elimina(event,@item.Id)"><i class="far fa-trash-alt"></i></a>
-            <a style="margin-right:5px;" class="btn btn-primary float-lg-right" href="#" data-toggle="modal" data-target="#edit" onclick="selCuenta('@item.Id','@item.Titulo','@item.Cuerpo')"><i class="fas fa-edit"></i></a>
-            <a style="margin-right:5px;" class="btn btn-success float-lg-right" href="#" data-toggle="modal" data-target="#compartir" onclick="Compartir('@item.Id')"><i class="far fa-share-square"></i></a>
+            <a style="margin-right:5px;" class="btn btn-danger float-lg-right" href="/Home/Eliminar?id=@item.Nota.Id" onclick="elimina(event,@item.Nota.Id)"><i class="far fa-trash-alt"></i></a>
+            <a style="margin-right:5px;" class="btn btn-primary float-lg-right" href="#" data-toggle="modal" data-target="#edit" onclick="selCuenta('@item.Nota.Id','@item.Nota.Titulo','@item.Nota.Cuerpo')"><i class="fas fa-edit"></i></a>
+            <a style="margin-right:5px;" class="btn btn-success float-lg-right" href="#" data-toggle="modal" data-target="#compartir" onclick="Compartir('@item.Nota.Id')"><i class="far fa-share-square"></i></a>
         </div>
     </li>
-
-</ul>       }
+</ul>            }
         </div>
     </div>
 </div>
@@ -94,7 +93,7 @@ else
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="submitFormEdit()">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Guardar</button>
             </div>
         </div>
     </div>
@@ -188,7 +187,7 @@ else
             $('#editNotita').html(html);
         })
 
-        function submitFormEdit() {
+        function submitForm() {
             $('#editNota').submit();
         }
 
@@ -210,7 +209,6 @@ else
                 $('#editNotita').html(html.responseText);
             });
         }
-
         function Compartir(id) {
             $('#IdNota').val(id);
         };
